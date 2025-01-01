@@ -15,15 +15,17 @@
 \setlength{\gwline@leftpadding}{0.45\textwidth}
 
 \newlength{\gwline@rightpadding}  % Where signal ends, measured from right end of text
-\setlength{\gwline@rightpadding}{0.05\textwidth} % Has to be fitted by hand
+\setlength{\gwline@rightpadding}{0.05\textwidth}
 
 \newlength{\gwline@signalheight}
-% \setlength{\gwline@signalheight}{2em}
-\setlength{\gwline@signalheight}{1.6em}
+\setlength{\gwline@signalheight}{\headheight}
 
 \newlength{\gwline@signalshift}  % Amount by which signal is shifted up from where headline would usually be
 \setlength{\gwline@signalshift}{-0.5em}
 % \setlength{\gwline@signalshift}{-\parskip}  % No idea why this does not work
+
+\newlength{\gwline@headlinewidth}
+\setlength{\gwline@headlinewidth}{\textwidth}
 
 
 \RequirePackage{xkeyval}
@@ -32,6 +34,7 @@
 \DeclareOptionX{rightpadding}{\setlength{\gwline@rightpadding}{#1}}
 \DeclareOptionX{signalheight}{\setlength{\gwline@signalheight}{#1}}
 \DeclareOptionX{signalshift}{\setlength{\gwline@signalshift}{#1}}
+\DeclareOptionX{headwidth}{\setlength{\gwline@headlinewidth}{#1}}
 \ProcessOptionsX
 
 
@@ -39,6 +42,8 @@
 
 \RequirePackage{tikz}
 \usetikzlibrary{calc}
+
+\RequirePackage{ifthen}
 
 
 % -- Processing of lengths
@@ -51,8 +56,6 @@
 \tikzset{
     gwline@linestyle/.style={
 		smooth,
-		% line width=0.42pt,
-        % thin,
 	}
 }
 
@@ -69,8 +72,6 @@
 }
 
 
-% \RequirePackage{geometry}
-
 \newcommand{\gwheadline}[1][]{%
     % -- NOTE: not having blank lines is important for spacing reasons.
     % -- Always put a comment in.
@@ -79,38 +80,38 @@
     \pgfkeys{/gwline, #1}%
     % 
     % -- Process lengths
-    \setlength{\gwline@signalwidth}{\textwidth-\gwline@leftpadding-\gwline@rightpadding}%
-    % \addtolength{\headheight}{\gwline@signalheight}%  % TODO: decide if we should do this or not -> especially if it makes sense here
+    \setlength{\gwline@signalwidth}{\gwline@headlinewidth - \gwline@leftpadding - \gwline@rightpadding}%
     % 
     % 
-    % \noindent\raggedright%
     \begin{tikzpicture}[
-        remember picture,  % Not entirely sure if needed, but just in case
+        remember picture,
         overlay,
-        % shift=\leftmargin,
-        % shift={($(current page.north west)+(\leftmargin,\topmargin+\headheight)$)},
-        % shift={($(current page.west)+(\leftmargin,0)$)},
-        ]
-        \draw[
-            gwline@linestyle,
-            shift={(0,\gwline@signalshift)},
-        ] (0, 0) -- (\gwline@leftpadding, 0);
-
-        \begin{scope}[
-            x=\gwline@signalwidth,
-            y=\gwline@signalheight,
-        ]
+        gwline@linestyle,
+    ]
+        \ifthenelse{
+            \equal{\gwline@templatefilename}{"None"}
+        }{
             \draw[
-                gwline@linestyle,
-                shift={(\gwline@leftpadding,\gwline@signalshift)},
-            ] plot file {\gwline@templatefilename};
-        \end{scope}
+                shift={(0, \gwline@signalshift)},
+            ] (0, 0) -- (\gwline@headlinewidth, 0);
+        }{
+            \draw[
+                shift={(0, \gwline@signalshift)},
+            ] (0, 0) -- (\gwline@leftpadding, 0);
 
-        \draw[
-            gwline@linestyle,
-            shift={(0,\gwline@signalshift)},
-        ] ({\textwidth - \gwline@rightpadding}, 0) -- (\textwidth, 0);
+            \begin{scope}[
+                x=\gwline@signalwidth,
+                y=\gwline@signalheight,
+            ]
+                \draw[
+                    shift={(\gwline@leftpadding, \gwline@signalshift)},
+                ] plot file {\gwline@templatefilename};
+            \end{scope}
+
+            \draw[
+                shift={(\gwline@headlinewidth, \gwline@signalshift)},
+            ] (-\gwline@rightpadding, 0) -- (0, 0);
+        }
     \end{tikzpicture}%
+    % TODO: add some padding here? Like 0.5\signalheight?
 }
-
-% \renewcommand{\headrule}{\gwheadline}

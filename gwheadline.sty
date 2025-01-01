@@ -1,0 +1,116 @@
+%% start of file `gwheadline.sty'.
+%% Copyright 2024 Max Melching (m-melching@web.de).
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License version 1.3c,
+% available at http://www.latex-project.org/lppl/.
+
+
+\ProvidesPackage{gwheadline}
+
+% -- Option definitions
+\newcommand{\gwline@templatefilename}{"generic_template.txt"}
+
+\newlength{\gwline@leftpadding}  % Where signal starts, measured from left end of text
+\setlength{\gwline@leftpadding}{0.45\textwidth}
+
+\newlength{\gwline@rightpadding}  % Where signal ends, measured from right end of text
+\setlength{\gwline@rightpadding}{0.05\textwidth} % Has to be fitted by hand
+
+\newlength{\gwline@signalheight}
+% \setlength{\gwline@signalheight}{2em}
+\setlength{\gwline@signalheight}{1.6em}
+
+\newlength{\gwline@signalshift}  % Amount by which signal is shifted up from where headline would usually be
+\setlength{\gwline@signalshift}{-0.5em}
+% \setlength{\gwline@signalshift}{-\parskip}  % No idea why this does not work
+
+
+\RequirePackage{xkeyval}
+\DeclareOptionX{templatefile}{\renewcommand{\gwline@templatefilename}{#1}}
+\DeclareOptionX{leftpadding}{\setlength{\gwline@leftpadding}{#1}}
+\DeclareOptionX{rightpadding}{\setlength{\gwline@rightpadding}{#1}}
+\DeclareOptionX{signalheight}{\setlength{\gwline@signalheight}{#1}}
+\DeclareOptionX{signalshift}{\setlength{\gwline@signalshift}{#1}}
+\ProcessOptionsX
+
+
+\RequirePackage{calc}  % For length calculations
+
+\RequirePackage{tikz}
+\usetikzlibrary{calc}
+
+
+% -- Processing of lengths
+\newlength{\gwline@signalwidth}
+% \setlength{\gwline@signalwidth}{\textwidth-\gwline@leftpadding-\gwline@rightpadding}
+
+% \addtolength{\headheight}{\gwline@signalheight}  % TODO: decide if we should do this or not
+
+% -- Define custom style for all lines, so that it can be redefined easily
+\tikzset{
+    gwline@linestyle/.style={
+		smooth,
+		% line width=0.42pt,
+        % thin,
+	}
+}
+
+
+% -- Second way to pass arguments: as pgfkeys to command
+\pgfkeys{
+	/gwline/.is family, /gwline,
+	% -- No default style definition needed, all commands already have values
+    templatefile/.estore in = \gwline@templatefilename,
+    leftpadding/.estore in = \gwline@leftpadding,
+    rightpadding/.estore in = \gwline@rightpadding,
+    signalheight/.estore in = \gwline@signalheight,
+    signalshift/.estore in = \gwline@signalshift,
+}
+
+
+% \RequirePackage{geometry}
+
+\newcommand{\gwheadline}[1][]{%
+    % -- NOTE: not having blank lines is important for spacing reasons.
+    % -- Always put a comment in.
+    % 
+    % -- Import keys for styling
+    \pgfkeys{/gwline, #1}%
+    % 
+    % -- Process lengths
+    \setlength{\gwline@signalwidth}{\textwidth-\gwline@leftpadding-\gwline@rightpadding}%
+    % \addtolength{\headheight}{\gwline@signalheight}%  % TODO: decide if we should do this or not -> especially if it makes sense here
+    % 
+    % 
+    % \noindent\raggedright%
+    \begin{tikzpicture}[
+        remember picture,  % Not entirely sure if needed, but just in case
+        overlay,
+        % shift=\leftmargin,
+        % shift={($(current page.north west)+(\leftmargin,\topmargin+\headheight)$)},
+        % shift={($(current page.west)+(\leftmargin,0)$)},
+        ]
+        \draw[
+            gwline@linestyle,
+            shift={(0,\gwline@signalshift)},
+        ] (0, 0) -- (\gwline@leftpadding, 0);
+
+        \begin{scope}[
+            x=\gwline@signalwidth,
+            y=\gwline@signalheight,
+        ]
+            \draw[
+                gwline@linestyle,
+                shift={(\gwline@leftpadding,\gwline@signalshift)},
+            ] plot file {\gwline@templatefilename};
+        \end{scope}
+
+        \draw[
+            gwline@linestyle,
+            shift={(0,\gwline@signalshift)},
+        ] ({\textwidth - \gwline@rightpadding}, 0) -- (\textwidth, 0);
+    \end{tikzpicture}%
+}
+
+% \renewcommand{\headrule}{\gwheadline}

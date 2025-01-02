@@ -1,0 +1,35 @@
+\documentclass{scrreprt}
+
+
+\usepackage[
+	% headsepline,  % En-/disable for checks with the GW headline
+]{scrlayer-scrpage}
+\clearscrheadings
+\setlength{\headheight}{\baselineskip}
+
+
+% -- Now use the package
+% -- NOTE: since .sty and .txt are not in same directory, we have to give
+% -- the templatefile argument and use ../gwheadline
+\usepackage[
+	templatefile="../generic_template.txt",
+	% templatefile="../eccentric_template.txt",
+	% More options
+]{../gwheadline}
+
+
+\ihead{%
+	\gwheadline[
+	% Potentially Different Options
+	]%
+	Test Header%
+}
+% -- NOTE: this is the intended way of using the command. \ohead or \head would
+% -- work as well, but only with some extra work (see the file alignment_example).
+
+
+\begin{document}
+
+Hello there
+
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass{scrreprt}
+
+\usepackage{scrlayer-scrpage}
+\clearscrheadings
+\ihead{Pre-defined Inner Header}
+
+
+\usepackage[templatefile="../generic_template.txt"]{../gwheadline}
+
+% -- Scenario: you cannot set \ihead, e.g. because it is already defined.
+% -- In that case, either of the following can be used as an alternative.
+% \ohead{\raggedright\gwheadline}
+\ohead{%
+    \raggedright%
+    \gwheadline[rightpadding=0.12\textwidth]%
+    \hfill%
+    Outer Text%
+}
+
+
+\begin{document}
+
+Hello there
+
+\end{document}

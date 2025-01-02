@@ -1,0 +1,42 @@
+\documentclass{scrreprt}
+
+
+\usepackage[
+	% headsepline,  % En-/disable for checks with the GW headline
+]{scrlayer-scrpage}
+\clearscrheadings
+\setlength{\headheight}{\baselineskip}
+
+\usepackage[templatefile="../generic_template.txt"]{../gwheadline}
+
+
+% -- Some sample colors
+\definecolor{cobalt}{rgb}{0.0, 0.28, 0.67}
+\definecolor{burntorange}{rgb}{0.8, 0.33, 0.0}
+\definecolor{darkcerulean}{rgb}{0.03, 0.27, 0.49}
+
+\definecolor{themecolor}{named}{cobalt}
+% \definecolor{themecolor}{named}{burntorange}
+% \definecolor{themecolor}{named}{darkcerulean}
+
+
+\ihead{\gwheadline[signalheight=2em]%
+    {\bfseries%
+    \color{themecolor}%
+    Test Header}%
+}
+
+\tikzset{
+    gwline@linestyle/.style={
+        themecolor,
+		smooth,
+		line width=1.42pt,
+	}
+}
+
+
+\begin{document}
+
+Hello there
+
+\end{document}

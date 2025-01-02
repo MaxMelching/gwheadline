@@ -1,0 +1,31 @@
+\documentclass{scrreprt}
+
+
+\usepackage[
+    % headsepline,
+    headwidth=0.98\paperwidth,
+]{scrlayer-scrpage}
+\clearscrheadings
+\setlength{\headheight}{\baselineskip}
+
+
+% -- Now use the package
+% -- NOTE: since .sty and .txt are not in same directory, we have to give
+% -- the templatefile argument and use ../gwheadline
+\usepackage[
+	templatefile="../generic_template.txt",
+    headwidth=0.98\paperwidth,
+    % -- Adjust paddings accordingly
+    leftpadding=0.5\paperwidth,
+    rightpadding=0.1\paperwidth,
+]{../gwheadline}
+
+% \ihead{\gwheadline{}Test Header}
+
+
+
+\begin{document}
+
+Hello there
+
+\end{document}

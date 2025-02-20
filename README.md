@@ -65,6 +65,9 @@ Since there are not too many, we list them here and not in a separate pdf:
   I could not find a robust manual way of getting this length (due to the many
   different possible classes and packages that could be used to control is).
 
+- `backgroundsignal`: a file that is plotted in the background, for instance
+  to represent the data that underlies the signal represented by `templatefile`.
+
 - Styling: albeit not being a direct option that can be passed, it is possible
   to change the appearance of the line by editing the corresponding TikZ style:
 

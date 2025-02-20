@@ -1,11 +1,11 @@
 \documentclass{scrreprt}
 
 
-\usepackage[
-    % headsepline,
-    headwidth=0.98\paperwidth,
-]{scrlayer-scrpage}
-\clearscrheadings
+\usepackage{scrlayer-scrpage}
+\KOMAoptions{headwidth=0.98\paperwidth}
+% -- We could set left and right offsets via
+% -- \KOMAoptions{headwidth=0.98\paperwidth:offset:offset}
+\clearmainofpairofpagestyles
 \setlength{\headheight}{\baselineskip}
 
 
@@ -13,14 +13,14 @@
 % -- NOTE: since .sty and .txt are not in same directory, we have to give
 % -- the templatefile argument and use ../gwheadline
 \usepackage[
-	templatefile="../generic_template.txt",
+	templatefile="../code/generic_template.txt",
     headwidth=0.98\paperwidth,
     % -- Adjust paddings accordingly
     leftpadding=0.5\paperwidth,
     rightpadding=0.1\paperwidth,
 ]{../gwheadline}
 
-% \ihead{\gwheadline{}Test Header}
+\ihead{\gwheadline{}Test Header}
 
 
 

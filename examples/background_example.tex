@@ -12,13 +12,32 @@
 % -- NOTE: since .sty and .txt are not in same directory, we have to give
 % -- the templatefile argument and use ../gwheadline
 \usepackage[
-	templatefile="../code/generic_template.txt",
-	% templatefile="../code/eccentric_template.txt",
-	% More options
+    % templatefile="../code/generic_template_no_noise.txt",
+    templatefile="../code/generic_template_no_noise_whitened.txt",
+    backgroundsignal="../code/generic_template_w_noise.txt",
+    signalheight=24pt,
 ]{../gwheadline}
 
 
+\usepackage{xcolor}
+\definecolor{midnightblue}{rgb}{0.1, 0.1, 0.44}
+
+\tikzset{
+    gwline@linestyle/.style={
+        smooth,
+        very thick,
+        midnightblue,
+    },
+    gwline@bglinestyle/.style={
+        smooth,
+        ultra thick,
+        gray!50,
+    }
+}
+
+
 \ihead{%
+	\color{midnightblue}%
 	\gwheadline[
 	% Potentially Different Options
 	]%

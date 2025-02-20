@@ -3,25 +3,25 @@
 
 \usepackage[
 	%headsepline,  % En-/disable for checks with the GW headline
-    automark,
+    % automark,
 ]{scrlayer-scrpage}
-\clearscrheadings
+\clearmainofpairofpagestyles
 \setlength{\headheight}{\baselineskip}
 \automark{section}
 \setkomafont{section}{\rmfamily\Large\bfseries}
 
-\ihead{\headmark}
-\ohead{\small Max Melching}
 
 % -- Now use the package
 % -- NOTE: since .sty and .txt are not in same directory, we have to give
 % -- the templatefile argument and use ../gwheadline
 \usepackage[
-	templatefile="../generic_template.txt",
+	templatefile="../code/generic_template.txt",
 	rightpadding=0.12\textwidth,
 ]{../gwheadline}
 
-\chead{\gwheadline}
+\ihead{\gwheadline{}\headmark}
+\ohead{\small Max Melching}
+% \chead{\gwheadline}
 
 
 

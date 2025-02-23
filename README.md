@@ -1,5 +1,9 @@
 # gwheadline
 
+***Note***: this package can now be used as part of the more versatile
+`gwbar` package, so I would recommend use of this.
+
+
 A gravitational-wave headline template for LaTeX documents.
 
 ## Usage

@@ -28,7 +28,7 @@
 \newlength{\gwline@headlinewidth}
 \setlength{\gwline@headlinewidth}{\textwidth}
 
-\def\gwbar@backgroundtemplatefilename{"none"}
+\def\gwline@backgroundtemplatefilename{"none"}
 
 
 \RequirePackage{xkeyval}
@@ -38,7 +38,7 @@
 \DeclareOptionX{signalheight}{\setlength{\gwline@signalheight}{#1}}
 \DeclareOptionX{signalshift}{\setlength{\gwline@signalshift}{#1}}
 \DeclareOptionX{headwidth}{\setlength{\gwline@headlinewidth}{#1}}
-\DeclareOptionX{backgroundsignal}{\renewcommand{\gwbar@backgroundtemplatefilename}{#1}}
+\DeclareOptionX{backgroundsignal}{\renewcommand{\gwline@backgroundtemplatefilename}{#1}}
 \ProcessOptionsX
 
 
@@ -81,6 +81,7 @@
     signalheight/.estore in = \gwline@signalheight,
     signalshift/.estore in = \gwline@signalshift,
     headwidth/.estore in = \gwline@headlinewidth,
+    backgroundsignal/.estore in = \gwline@backgroundtemplatefilename,
 }
 
 
@@ -104,12 +105,12 @@
     ]%
         % -- Order matters, first one is supposed to serve as background
         % -- signal (if a background signal is given).
-        \ifthenelse{\equal{\gwbar@backgroundtemplatefilename}{"none"}}{
+        \ifthenelse{\equal{\gwline@backgroundtemplatefilename}{"none"}}{
         }{
             \draw[
                 gwline@bglinestyle,
                 shift={(\gwline@leftpadding, \gwline@signalshift)},
-            ] plot file {\gwbar@backgroundtemplatefilename};
+            ] plot file {\gwline@backgroundtemplatefilename};
         }
 
         \ifthenelse{
